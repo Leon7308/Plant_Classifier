@@ -139,7 +139,8 @@ class _HomePageState extends State<HomePage>{
       if(results != null && results.length > 0){
         for (var i = 0; i < results[0][0].length; i++) {
           if (results[0][0][i] > 0) {
-            var confidenceLevel = results[0][0][i] / 2.55 * 100;
+            var confidenceLevel = results[0][0][i] * 100;
+            print(confidenceLevel);
             if(confidenceLevel > 0){
               predictions[modelLabels[i]] = confidenceLevel;
             }
@@ -167,7 +168,7 @@ class _HomePageState extends State<HomePage>{
     // 
     predictions.forEach((k, v){
       predictionWidget.add(
-        Text("$k : ${(v.round()/39)*100.floor()} %")
+        Text("$k : ${(v.round()).round()} %")
       );
 
     });
@@ -189,6 +190,10 @@ class _HomePageState extends State<HomePage>{
             FlatButton(
               child: Text('Ok'),
               onPressed: () {
+                setState(() {
+                  selectedImageFile = null;
+                  //initCam();
+                });
                 Navigator.of(context).pop();
               },
             ),
@@ -210,7 +215,12 @@ class _HomePageState extends State<HomePage>{
             FlatButton(
               child: Text('Ok'),
               onPressed: () {
+                selectedImageFile = null;
+                setState(() {
+                 // initCam();
+                });
                 Navigator.of(context).pop();
+
               },
             ),
           ],
@@ -243,10 +253,6 @@ class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Plant Recognition"),
-        centerTitle: false,
-      ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -278,7 +284,7 @@ class _HomePageState extends State<HomePage>{
                 child: Icon(
                   Icons.photo,
                   color: Colors.white,
-                  size: 25,
+                  size: 50,
                 ),
                 padding: const EdgeInsets.all(10),
                 color: Colors.red,
@@ -296,7 +302,7 @@ class _HomePageState extends State<HomePage>{
                 child: Icon(
                   Icons.camera_alt,
                   color: Colors.white,
-                  size: 30,
+                  size: 50,
                 ),
                 padding: const EdgeInsets.all(20),
                 color: Colors.red,
